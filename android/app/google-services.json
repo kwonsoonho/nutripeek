@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "239404326768",
+    "project_id": "nutripeek-81a9b",
+    "storage_bucket": "nutripeek-81a9b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239404326768:android:c6d3c3c23e5ecd625cb9b5",
+        "android_client_info": {
+          "package_name": "com.nutripeek.soon.nutripeek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239404326768-4ja92ofi976f94o17jbokq2t0dmjab1v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDa2aELDTFuOvaAjFAoWmwjr77KoGW4ufM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239404326768-4ja92ofi976f94o17jbokq2t0dmjab1v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
