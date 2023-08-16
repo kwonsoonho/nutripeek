@@ -70,6 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '239404326768',
     projectId: 'nutripeek-81a9b',
     storageBucket: 'nutripeek-81a9b.appspot.com',
+    androidClientId: '239404326768-jdfskilvlc5nd111b4v92v8ssmgruuv3.apps.googleusercontent.com',
     iosClientId: '239404326768-cqankbabanmpratk3uu3m6k0dje2vp5v.apps.googleusercontent.com',
     iosBundleId: 'com.nutripeek.soon.nutripeek',
   );
