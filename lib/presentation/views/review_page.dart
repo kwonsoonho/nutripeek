@@ -5,13 +5,13 @@ import '../../domain/entities/supplement.dart';
 class ReviewPage extends StatefulWidget {
   final Supplement supplement;
 
-  ReviewPage({required this.supplement});
-
+  const ReviewPage({super.key, required this.supplement});
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
+  State<ReviewPage> createState() => _ReviewPageState();
+}
 
-// ... StatefulWidget 구현
+class _ReviewPageState extends State<ReviewPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: Text('ReviewPage'),));  }
 }
