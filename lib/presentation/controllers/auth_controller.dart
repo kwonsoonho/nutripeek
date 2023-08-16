@@ -16,5 +16,4 @@ class AuthController extends GetxController {
     _user.value = user;
     print('user info : $_user');
   }
-
 }

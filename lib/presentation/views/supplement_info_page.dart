@@ -8,14 +8,14 @@ import '../controllers/supplement_info_controller.dart';
 import 'SupplementDetailPage.dart';
 import 'my_page.dart';
 
+
+
 class SupplementInfoPage extends StatelessWidget {
   final controller =
       Get.put(SupplementInfoController(FirebaseSupplementsRepository()));
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode(); // 포커스 노드 생성
   final authRepository = AuthRepositoryImpl(); // AuthRepository 구현체를 생성
-
-
 
   SupplementInfoPage({super.key});
 
@@ -30,7 +30,10 @@ class SupplementInfoPage extends StatelessWidget {
                 final getCurrentUser = GetCurrentUser(AuthRepositoryImpl());
                 final user = await getCurrentUser.call();
                 if (user != null) {
-                  Get.to(MyPage(user: user, authRepository: authRepository,));
+                  Get.to(MyPage(
+                    user: user,
+                    authRepository: authRepository,
+                  ));
                 }
               },
               icon: const Icon(Icons.settings))
@@ -56,7 +59,6 @@ class SupplementInfoPage extends StatelessWidget {
                     _searchController.clear(); // 입력값 초기화
                     controller.resetSearch(); // 리스트 초기화
                     _searchFocusNode.unfocus(); // 포커스 제거
-
                   },
                 ),
               ),
@@ -75,8 +77,17 @@ class SupplementInfoPage extends StatelessWidget {
                   return ListTile(
                     title: Text(supplement.productName),
                     subtitle: Text(supplement.businessName),
-                    onTap: () { // onTap 추가
-                      Get.to(SupplementDetailPage(supplement: supplement)); // 상세보기 페이지로 이동
+                    onTap: () async {
+                      // onTap 추가
+
+                      final getCurrentUser =
+                          GetCurrentUser(AuthRepositoryImpl());
+                      final user = await getCurrentUser.call();
+                      if (user != null) {
+                        Get.to(SupplementDetailPage(
+                            supplement: supplement,
+                            user: user)); // 상세보기 페이지로 이동
+                      }
                     },
                   );
                 },

@@ -86,4 +86,28 @@ class AuthRepositoryImpl implements AuthRepository {
     }
     return null;
   }
+
+  @override
+  Future<void> updateUserDataIfNeeded() async {
+    final firebase_auth.User? user = _firebaseAuth.currentUser;
+    if (user != null) {
+      final DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
+      final Map<String, dynamic>? data = userDoc.data() as Map<String, dynamic>?;
+
+      print("User Document Data: $data"); // 문서 데이터 출력
+
+      if (data != null && (!data.containsKey('favoriteSupplements') || !data.containsKey('likedSupplements'))) {
+        print("Initializing favoriteSupplements and likedSupplements"); // 초기화 로그
+
+        await _firestore.collection('users').doc(user.uid).set(
+            {
+              'favoriteSupplements': [],
+              'likedSupplements': [],
+            },
+            SetOptions(merge: true));
+      }
+    }
+  }
+
+
 }

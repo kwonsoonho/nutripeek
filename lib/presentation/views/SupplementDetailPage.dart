@@ -1,83 +1,29 @@
 // SupplementDetailPage.dart
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nutripeek/presentation/views/review_page.dart';
 import '../../domain/entities/supplement.dart';
+import '../../domain/entities/user.dart';
 
 class SupplementDetailPage extends StatefulWidget {
   final Supplement supplement;
+  final User user; // 사용자 객체를 추가
 
-  const SupplementDetailPage({super.key, required this.supplement});
+  const SupplementDetailPage(
+      {super.key, required this.supplement, required this.user});
 
   @override
   State<SupplementDetailPage> createState() => _SupplementDetailPageState();
 }
 
 class _SupplementDetailPageState extends State<SupplementDetailPage> {
-
-  bool isLiked = false; // 좋아요 상태
-  bool isFavorited = false; // 찜하기 상태
-  int likeCount = 0;
-  int favoriteCount = 0;
-  int reviewCount = 0;
-
-  // 초기화 함수에서 Firestore에서 현재 영양제의 상태를 가져옵니다.
-  void initState() {
-    super.initState();
-    // Firestore에서 좋아요, 찜, 리뷰 수를 가져오고, 현재 사용자의 상태를 확인합니다.
-  }
-
-  void toggleLike() {
-    // Firestore에 좋아요 상태를 업데이트하고, 좋아요 수를 증가/감소시킵니다.
-    setState(() {
-      isLiked = !isLiked;
-      likeCount += isLiked ? 1 : -1;
-    });
-  }
-
-  void toggleFavorite() {
-    // Firestore에 찜하기 상태를 업데이트하고, 찜하기 수를 증가/감소시킵니다.
-    setState(() {
-      isFavorited = !isFavorited;
-      favoriteCount += isFavorited ? 1 : -1;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.supplement.productName),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              icon: Icon(isLiked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined),
-              onPressed: toggleLike,
-            ),
-            Text('Likes: $likeCount'),
-            IconButton(
-              icon: Icon(isFavorited ? Icons.favorite : Icons.favorite_border),
-              onPressed: toggleFavorite,
-            ),
-            Text('Favorites: $favoriteCount'),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ReviewPage(supplement: widget.supplement),
-                  ),
-                );
-              },
-              child: Text('Reviews: $reviewCount'),
-            ),
-          ],
-        ),
-      ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -114,6 +60,7 @@ class _SupplementDetailPageState extends State<SupplementDetailPage> {
             ),
 
             // 다른 섹션과 정보를 추가로 나열
+            buildActionSection(),
           ],
         ),
       ),
@@ -200,6 +147,55 @@ class _SupplementDetailPageState extends State<SupplementDetailPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildActionSection() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        buildLikeButton(),
+        buildFavoriteButton(),
+        buildReviewButton(),
+      ],
+    );
+  }
+
+  Widget buildLikeButton() {
+    final isLiked = widget.supplement.likes[widget.user.uid] ?? false;
+    final likeCount = widget.supplement.likes.length;
+    return Row(
+      children: [
+        IconButton(
+          icon: Icon(isLiked ? Icons.thumb_up : Icons.thumb_up_off_alt),
+          onPressed: () {
+            // 로직 추가
+          },
+        ),
+        Text('$likeCount'),
+      ],
+    );
+  }
+
+  Widget buildFavoriteButton() {
+    final isFavorite = widget.supplement.favorites[widget.user.uid] ?? false;
+    return IconButton(
+      icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+      onPressed: () {
+        // 로직 추가
+      },
+    );
+  }
+
+  Widget buildReviewButton() {
+    // 리뷰 수를 가져와서 보여주도록 코드 수정
+    return IconButton(
+      icon: const Icon(Icons.rate_review),
+      onPressed: () {
+        // 리뷰 페이지로 넘어가기 전에 리뷰 리스트 받아와서 전달
+
+        Get.to(const ReviewPage());
+      },
     );
   }
 }

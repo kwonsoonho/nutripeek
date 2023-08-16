@@ -21,9 +21,8 @@ Future<void> main() async {
   Get.put(SignInWithGoogle(Get.find()));
   Get.put(AuthController(Get.find()));
 
-
-  // // Ideal time to initialize
-  // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  final authRepository = Get.find<AuthRepository>();
+  await authRepository.updateUserDataIfNeeded();
 
 
   runApp( MyApp());
