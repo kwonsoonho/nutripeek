@@ -3,9 +3,6 @@ import 'package:get/get.dart';
 import 'package:nutripeek/presentation/controllers/auth_controller.dart';
 import 'package:nutripeek/presentation/views/supplement_info_page.dart';
 
-import '../../data/repositories/auth_repository_impl.dart';
-import '../../domain/usecases/sign_in_with_google.dart';
-
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 

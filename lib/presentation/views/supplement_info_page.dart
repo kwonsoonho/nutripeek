@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:nutripeek/presentation/controllers/auth_controller.dart';
 import 'package:nutripeek/presentation/views/login_page.dart';
 
-import '../../data/repositories/auth_repository_impl.dart';
 import '../../data/repositories/supplements_repository.dart';
 import '../controllers/supplement_info_controller.dart';
 import 'SupplementDetailPage.dart';
