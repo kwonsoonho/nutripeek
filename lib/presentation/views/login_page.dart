@@ -3,11 +3,15 @@ import 'package:get/get.dart';
 import 'package:nutripeek/presentation/controllers/auth_controller.dart';
 import 'package:nutripeek/presentation/views/supplement_info_page.dart';
 
+import '../../data/repositories/auth_repository_impl.dart';
+import '../../domain/usecases/sign_in_with_google.dart';
+
 class LoginPage extends StatelessWidget {
-  final AuthController _authController = Get.find();
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authController = Get.find<AuthController>(); // 변경된 부분
     return Scaffold(
       appBar: AppBar(
         title: Text('Login Page'),
@@ -19,8 +23,11 @@ class LoginPage extends StatelessWidget {
             Text('Welcome! Please sign in with Google.'),
             ElevatedButton(
               onPressed: () async {
-                await _authController.signInWithGoogle();
-                Get.to(SupplementInfoPage());
+                await authController.signInWithGoogle();
+                final user = authController.user; // 사용자 정보 가져오기
+                if (user != null) {
+                  Get.offAll(SupplementInfoPage());
+                }
               },
               child: Text('Sign In with Google'),
             ),

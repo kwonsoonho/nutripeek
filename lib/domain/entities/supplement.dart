@@ -25,8 +25,8 @@ class Supplement {
   final String standardSpecification;
   final String storageMethod;
   final String type;
-  final Map<String, bool> likes; // Key: userID, Value: isLiked
-  final Map<String, bool> favorites; // Key: userID, Value: isFavorited
+  final int likesCount;
+  final int favoritesCount;
 
   Supplement({
     required this.businessName,
@@ -53,8 +53,8 @@ class Supplement {
     required this.standardSpecification,
     required this.storageMethod,
     required this.type,
-    required this.likes,
-    required this.favorites,
+    required this.likesCount,
+    required this.favoritesCount,
   });
 
   factory Supplement.fromFirestore(DocumentSnapshot doc) {
@@ -84,8 +84,8 @@ class Supplement {
       standardSpecification: data['standardSpecification'],
       storageMethod: data['storageMethod'],
       type: data['type'],
-      likes: Map<String, bool>.from(data['likes'] ?? {}),
-      favorites: Map<String, bool>.from(data['favorites'] ?? {}),
+      likesCount: data['likes'] is int ? data['likes'] : 0,
+      favoritesCount: data['favorites'] is int ? data['favorites'] : 0,
     );
   }
 }

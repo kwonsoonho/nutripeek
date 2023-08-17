@@ -1,42 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nutripeek/presentation/controllers/auth_controller.dart';
+import 'package:nutripeek/presentation/views/login_page.dart';
 
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../data/repositories/supplements_repository.dart';
-import '../../domain/usecases/get_current_user.dart';
 import '../controllers/supplement_info_controller.dart';
 import 'SupplementDetailPage.dart';
 import 'my_page.dart';
-
-
 
 class SupplementInfoPage extends StatelessWidget {
   final controller =
       Get.put(SupplementInfoController(FirebaseSupplementsRepository()));
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode(); // 포커스 노드 생성
-  final authRepository = AuthRepositoryImpl(); // AuthRepository 구현체를 생성
 
   SupplementInfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authController = Get.find<AuthController>();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Supplements'),
+        title: const Text('Supplements'),
         actions: [
           IconButton(
-              onPressed: () async {
-                final getCurrentUser = GetCurrentUser(AuthRepositoryImpl());
-                final user = await getCurrentUser.call();
+              onPressed: () {
+                final user = authController.user; // 사용자 정보 가져오기
                 if (user != null) {
-                  Get.to(MyPage(
-                    user: user,
-                    authRepository: authRepository,
-                  ));
+                  Get.to(() => MyPage(user: user)); // null이 아니면 MyPage로 이동
+                } else if (user == null) {
+                  Get.offAll(() => const LoginPage());
                 }
               },
-              icon: const Icon(Icons.settings))
+              icon: const Icon(Icons.person)),
+          IconButton(
+              onPressed: () async {
+                await authController.signOut(); // AuthController 사용하여 로그아웃
+                Get.offAll(() => const LoginPage());
+              },
+              icon: const Icon(Icons.logout))
         ],
       ),
       body: Column(
@@ -51,10 +55,10 @@ class SupplementInfoPage extends StatelessWidget {
               },
               decoration: InputDecoration(
                 labelText: 'Search',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
                   // 입력값 초기화 버튼 추가
-                  icon: Icon(Icons.clear),
+                  icon: const Icon(Icons.clear),
                   onPressed: () {
                     _searchController.clear(); // 입력값 초기화
                     controller.resetSearch(); // 리스트 초기화
@@ -71,22 +75,21 @@ class SupplementInfoPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   if (index == controller.supplements.length - 1) {
                     controller.fetchNextSupplements();
-                    return CircularProgressIndicator(); // 로딩 표시
+                    return const CircularProgressIndicator(); // 로딩 표시
                   }
                   final supplement = controller.supplements[index];
                   return ListTile(
                     title: Text(supplement.productName),
                     subtitle: Text(supplement.businessName),
-                    onTap: () async {
+                    onTap: () {
                       // onTap 추가
-
-                      final getCurrentUser =
-                          GetCurrentUser(AuthRepositoryImpl());
-                      final user = await getCurrentUser.call();
+                      final user = authController.user; // 사용자 정보 가져오기
                       if (user != null) {
-                        Get.to(SupplementDetailPage(
+                        Get.to(() => SupplementDetailPage(
                             supplement: supplement,
                             user: user)); // 상세보기 페이지로 이동
+                      } else if (user == null) {
+                        Get.offAll(() => const LoginPage());
                       }
                     },
                   );

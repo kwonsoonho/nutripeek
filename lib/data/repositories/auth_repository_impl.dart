@@ -28,13 +28,17 @@ class AuthRepositoryImpl implements AuthRepository {
             await _firebaseAuth.signInWithCredential(credential);
         final firebase_auth.User? user = authResult.user;
 
+        final DocumentSnapshot userDoc =
+        await _firestore.collection('users').doc(user?.uid).get();
+        final data = userDoc.data();
+
         if (user != null) {
           final User appUser = User(
               uid: user.uid,
               email: user.email!,
               displayName: user.displayName!,
-              favoriteSupplements: [],
-              likedSupplements: []);
+              favoriteSupplements: data != null ? List<String>.from(userDoc['favoriteSupplements'] ?? []) : [],
+              likedSupplements: data != null ? List<String>.from(userDoc['likedSupplements'] ?? []) : []);
 
           // Firestore에 사용자 문서 생성 또는 업데이트
           await _firestore.collection('users').doc(user.uid).set(
@@ -42,8 +46,8 @@ class AuthRepositoryImpl implements AuthRepository {
                 'uid': user.uid,
                 'email': user.email,
                 'displayName': user.displayName,
-                'favoriteSupplements': [], // Firestore에 빈 목록 추가
-                'likedSupplements': [], // Firestore에 빈 목록 추가
+                'favoriteSupplements': appUser.favoriteSupplements,
+                'likedSupplements': appUser.likedSupplements,
                 // 기타 필요한 필드 추가
               },
               SetOptions(
@@ -91,23 +95,24 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> updateUserDataIfNeeded() async {
     final firebase_auth.User? user = _firebaseAuth.currentUser;
     if (user != null) {
-      final DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
-      final Map<String, dynamic>? data = userDoc.data() as Map<String, dynamic>?;
+      final DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(user.uid).get();
+      final Map<String, dynamic>? data =
+          userDoc.data() as Map<String, dynamic>?;
 
       print("User Document Data: $data"); // 문서 데이터 출력
 
-      if (data != null && (!data.containsKey('favoriteSupplements') || !data.containsKey('likedSupplements'))) {
-        print("Initializing favoriteSupplements and likedSupplements"); // 초기화 로그
+      if (data != null &&
+          (!data.containsKey('favoriteSupplements') ||
+              !data.containsKey('likedSupplements'))) {
+        print(
+            "Initializing favoriteSupplements and likedSupplements"); // 초기화 로그
 
-        await _firestore.collection('users').doc(user.uid).set(
-            {
-              'favoriteSupplements': [],
-              'likedSupplements': [],
-            },
-            SetOptions(merge: true));
+        await _firestore.collection('users').doc(user.uid).set({
+          'favoriteSupplements': [],
+          'likedSupplements': [],
+        }, SetOptions(merge: true));
       }
     }
   }
-
-
 }

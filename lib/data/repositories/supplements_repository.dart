@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../../domain/entities/supplement.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nutripeek/domain/entities/user.dart';
 
+import '../../domain/entities/supplement.dart';
 
 abstract class SupplementsRepository {
   Stream<List<Supplement>> getNextSupplements();
@@ -8,7 +11,7 @@ abstract class SupplementsRepository {
 
 class FirebaseSupplementsRepository implements SupplementsRepository {
   QueryDocumentSnapshot? lastDocument;
-  int documentLimit = 100;
+  int documentLimit = 30;
 
   @override
   Stream<List<Supplement>> getNextSupplements() {
