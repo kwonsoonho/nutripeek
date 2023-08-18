@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../domain/entities/supplement.dart';
-import '../../data/repositories/supplements_repository.dart';
+import '../../data/repositories/firebase_supplements_repository.dart';
 
 class SupplementInfoController extends GetxController {
   final supplements = RxList<Supplement>();

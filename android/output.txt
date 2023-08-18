@@ -1,0 +1,56 @@
+.
+├── app
+│   ├──  key.properties
+│   ├── build.gradle
+│   ├── google-services.json
+│   └── src
+│       ├── debug
+│       │   └── AndroidManifest.xml
+│       ├── main
+│       │   ├── AndroidManifest.xml
+│       │   ├── java
+│       │   │   └── io
+│       │   │       └── flutter
+│       │   │           └── plugins
+│       │   │               └── GeneratedPluginRegistrant.java
+│       │   ├── kotlin
+│       │   │   └── com
+│       │   │       └── nutripeek
+│       │   │           └── soon
+│       │   │               └── nutripeek
+│       │   │                   └── MainActivity.kt
+│       │   └── res
+│       │       ├── drawable
+│       │       │   └── launch_background.xml
+│       │       ├── drawable-v21
+│       │       │   └── launch_background.xml
+│       │       ├── mipmap-hdpi
+│       │       │   └── ic_launcher.png
+│       │       ├── mipmap-mdpi
+│       │       │   └── ic_launcher.png
+│       │       ├── mipmap-xhdpi
+│       │       │   └── ic_launcher.png
+│       │       ├── mipmap-xxhdpi
+│       │       │   └── ic_launcher.png
+│       │       ├── mipmap-xxxhdpi
+│       │       │   └── ic_launcher.png
+│       │       ├── values
+│       │       │   └── styles.xml
+│       │       └── values-night
+│       │           └── styles.xml
+│       └── profile
+│           └── AndroidManifest.xml
+├── build.gradle
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── local.properties
+├── nutripeek_android.iml
+├── output.txt
+└── settings.gradle
+
+27 directories, 27 files

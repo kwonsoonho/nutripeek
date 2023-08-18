@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:nutripeek/domain/repositories/auth_repository.dart';
 import 'package:nutripeek/domain/usecases/sign_in_with_google.dart';
 import '../../data/repositories/auth_repository_impl.dart';
-import '../../data/repositories/supplements_repository.dart';
+import '../../data/repositories/firebase_supplements_repository.dart';
 import '../controllers/auth_controller.dart'; // FirebaseSupplementsRepository가 있는 파일 import
 
 class AppBindings extends Bindings {

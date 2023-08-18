@@ -1,4 +1,4 @@
-// SupplementDetailPage.dart
+// supplement_detail_page.dart
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

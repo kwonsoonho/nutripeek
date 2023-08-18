@@ -1,4 +1,4 @@
-// supplements_repository.dart
+// firebase_supplements_repository.dart
 
 import '../entities/supplement.dart';
 

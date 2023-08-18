@@ -9,7 +9,7 @@ class AuthController extends GetxController {
   final SignInWithGoogle _signInWithGoogle;
   final _user = Rxn<User>();
 
-  AuthController(this.authRepository, this._signInWithGoogle); // 생성자 수정
+  AuthController(this.authRepository, this._signInWithGoogle);
 
   User? get user => _user.value;
 

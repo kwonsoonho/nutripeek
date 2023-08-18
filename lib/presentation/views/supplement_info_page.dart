@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:nutripeek/presentation/controllers/auth_controller.dart';
 import 'package:nutripeek/presentation/views/login_page.dart';
 
-import '../../data/repositories/supplements_repository.dart';
+import '../../data/repositories/firebase_supplements_repository.dart';
 import '../controllers/supplement_info_controller.dart';
-import 'SupplementDetailPage.dart';
+import 'supplement_detail_page.dart';
 import 'my_page.dart';
 
 class SupplementInfoPage extends StatelessWidget {
