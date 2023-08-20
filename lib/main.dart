@@ -1,46 +1,39 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:nutripeek/presentation/bindings/app_bindings.dart';
+import 'package:nutripeek/presentation/controllers/auth_controller.dart';
+import 'package:nutripeek/presentation/views/bottom_navigation_page.dart';
 import 'package:nutripeek/presentation/views/login_page.dart';
-import 'package:nutripeek/presentation/views/supplement_info_page.dart';
 import 'firebase_options.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp());
+  final _productsSearcher = HitsSearcher(applicationID: 'latency',
+      apiKey: '927c3fe76d4b52c5a2912973f35a3077',
+      indexName: 'STAGING_native_ecom_demo_products');
+
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialBinding: AppBindings(),
-      home: FutureBuilder(
-        future: () async {
-          // final authRepository = Get.find<AuthRepository>();
-          // await authRepository.updateUserDataIfNeeded();
-          return FirebaseAuth.instance.currentUser;
-        }(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (snapshot.hasData) {
-            return SupplementInfoPage(); // 로그인 상태일 때
-          } else {
-            return LoginPage(); // 로그아웃 상태일 때
-          }
+      home: GetBuilder<AuthController>(
+        builder: (authController) {
+          return authController.user.value != null
+              ? BottomNavigationPage() // 로그인 성공 시 바텀 네비게이션 페이지로 이동
+              : LoginPage();
         },
       ),
     );

@@ -1,25 +1,32 @@
 import 'package:get/get.dart';
 import 'package:nutripeek/domain/entities/user.dart';
-import 'package:nutripeek/domain/usecases/sign_in_with_google.dart';
-
 import '../../domain/repositories/auth_repository.dart';
+import '../views/bottom_navigation_page.dart';
 
 class AuthController extends GetxController {
-  final AuthRepository authRepository;
-  final SignInWithGoogle _signInWithGoogle;
-  final _user = Rxn<User>();
+  final AuthRepository _authRepository;
 
-  AuthController(this.authRepository, this._signInWithGoogle);
+  AuthController(this._authRepository);
 
-  User? get user => _user.value;
+  final user = Rx<User?>(null);
 
   Future<void> signInWithGoogle() async {
-    final user = await _signInWithGoogle();
-    print('SignInWithGoogle returned: $user');
-    _user.value = user;
+    try {
+      final user = await _authRepository.signInWithGoogle();
+      if (user != null) {
+        this.user.value = user;
+        print('user.uid: ${user.uid}');
+        Get.offAll(() => BottomNavigationPage());
+      } else {
+        Get.snackbar('Login Failed', 'Please try again');
+      }
+    } catch (e) {
+      Get.snackbar('Login Error', e.toString());
+    }
   }
 
   Future<void> signOut() async {
-    await authRepository.signOut(); // AuthRepository의 signOut 호출
+    await _authRepository.signOut();
+    user.value = null;
   }
 }

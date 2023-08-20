@@ -3,11 +3,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nutripeek/domain/entities/user.dart';
 import 'package:nutripeek/presentation/views/review_page.dart';
 import '../../data/repositories/firestore_like_repository.dart';
 import '../../domain/entities/supplement.dart';
-import '../../domain/entities/user.dart';
 import '../../domain/repositories/like_repository.dart';
+import '../controllers/auth_controller.dart';
 
 class SupplementDetailPage extends StatefulWidget {
   final Supplement supplement;
@@ -34,6 +35,9 @@ class _SupplementDetailPageState extends State<SupplementDetailPage> {
   @override
   void initState() {
     super.initState();
+
+    // user 정보 콘솔 출력
+    print('user.uid: ${widget.user}');
     _initializeLikeState();
     _initializeFavoriteState(); // 찜하기 상태 초기화
   }
