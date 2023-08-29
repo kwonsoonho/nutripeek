@@ -115,4 +115,9 @@ class AuthRepositoryImpl implements AuthRepository {
       }
     }
   }
+
+  @override
+  Stream<firebase_auth.User?> onAuthStateChanged() {
+    return _firebaseAuth.authStateChanges();
+  }
 }

@@ -28,17 +28,6 @@ class FirebaseSupplementsRepository implements SupplementsRepository {
     });
   }
 
-  @override
-  Stream<List<Supplement>> searchSupplements(String field, String query) {
-    return _firestore
-        .collection('supplements')
-        .limit(documentLimit)
-        .where(field, isEqualTo: query)
-        .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-            .map((doc) => Supplement.fromFirestore(doc))
-            .toList());
-  }
 
   @override
   Stream<List<Supplement>> getLikedSupplements(User user) {
@@ -58,4 +47,6 @@ class FirebaseSupplementsRepository implements SupplementsRepository {
       return favoriteSupplements;
     });
   }
+
+
 }

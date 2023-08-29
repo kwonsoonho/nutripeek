@@ -12,5 +12,6 @@ class AppBindings extends Bindings {
     Get.lazyPut<AuthController>(() => AuthController(Get.find()), fenix: true);
     Get.lazyPut<SupplementsRepository>(() => FirebaseSupplementsRepository(),
         fenix: true);
+
   }
 }

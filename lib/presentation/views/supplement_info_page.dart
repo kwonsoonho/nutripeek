@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nutripeek/presentation/controllers/auth_controller.dart';
 import 'package:nutripeek/presentation/views/login_page.dart';
-import 'package:nutripeek/presentation/views/search_page.dart';
 
 import '../../data/repositories/firebase_supplements_repository.dart';
 import '../controllers/supplement_info_controller.dart';
@@ -12,8 +11,6 @@ import 'my_page.dart';
 class SupplementInfoPage extends StatelessWidget {
   final controller =
       Get.put(SupplementInfoController(FirebaseSupplementsRepository()));
-  final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocusNode = FocusNode(); // 포커스 노드 생성
   final AuthController authController = Get.find();
 
   SupplementInfoPage({super.key});
@@ -55,29 +52,6 @@ class SupplementInfoPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: TextField(
-          //     controller: _searchController, // 컨트롤러 연결
-          //     focusNode: _searchFocusNode, // 포커스 노드 연결
-          //     onChanged: (query) {
-          //       controller.searchSupplements(query);
-          //     },
-          //     decoration: InputDecoration(
-          //       labelText: 'Search',
-          //       border: const OutlineInputBorder(),
-          //       suffixIcon: IconButton(
-          //         // 입력값 초기화 버튼 추가
-          //         icon: const Icon(Icons.clear),
-          //         onPressed: () {
-          //           _searchController.clear(); // 입력값 초기화
-          //           controller.resetSearch(); // 리스트 초기화
-          //           _searchFocusNode.unfocus(); // 포커스 제거
-          //         },
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Expanded(
             child: Obx(
               () => ListView.builder(
@@ -120,7 +94,23 @@ class SupplementInfoPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.search),
         onPressed: () {
-          Get.to(() => SearchPage());
+          if (user != null) {
+            // Get.to(() => SupplementSearchPage());
+            // Get.to(() => SupplementSearchPage(user : user));
+
+          } else {
+            Get.dialog(AlertDialog(
+              title: Text('로그인 필요'),
+              content: Text('로그인이 필요한 서비스입니다.'),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: const Text('확인'))
+              ],
+            ));
+          }
         },
       ),
     );

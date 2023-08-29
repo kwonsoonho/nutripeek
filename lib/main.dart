@@ -1,4 +1,4 @@
-import 'package:algolia_helper_flutter/algolia_helper_flutter.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
@@ -6,6 +6,7 @@ import 'package:nutripeek/presentation/bindings/app_bindings.dart';
 import 'package:nutripeek/presentation/controllers/auth_controller.dart';
 import 'package:nutripeek/presentation/views/bottom_navigation_page.dart';
 import 'package:nutripeek/presentation/views/login_page.dart';
+import 'package:nutripeek/utils/etc_function.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -13,12 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  final _productsSearcher = HitsSearcher(applicationID: 'latency',
-      apiKey: '927c3fe76d4b52c5a2912973f35a3077',
-      indexName: 'STAGING_native_ecom_demo_products');
-
-
+  EtcFunction.outputProjectStructure('/Users/soon/IdeaProjects/nutripeek/lib');
   runApp(const MyApp());
 }
 
